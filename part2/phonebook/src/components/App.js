@@ -1,4 +1,7 @@
 import React, { useState } from 'react'
+import Filter from './Filter'
+import PersonForm from './PersonForm'
+import Persons from './Persons'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -34,55 +37,37 @@ const App = () => {
   const handleNumberChange = (event) => {
     setNewNumber(event.target.value);
   }
-  const personsToShow = showAll ? 
+  const personsToShow = showAll ?
     persons : persons.filter(p => {
       console.log(filterVal.toUpperCase())
       return p.name.toUpperCase().includes(filterVal.toUpperCase())
     });
 
-  const handleFilter = (event) => {
-    setFilterVal(event.target.value)
-    if (filterVal) {
-      setShowAll(false)
-    } else {
-      setShowAll(true)
+    const handleFilter = (event) => {
+      setFilterVal(event.target.value)
+      if (filterVal) {
+        setShowAll(false)
+      } else {
+        setShowAll(true)
+      }
     }
-  }
-
+  
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with 
-        <input 
-          value={filterVal}
-          onChange={handleFilter} />
-      </div>
-      <h2>add a new</h2>
-      <form onSubmit={addName}>
-      <div>
-          name: <input value={newName}
-            onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber}
-            onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      {personsToShow.map(p =>
-        <Person key={p.name} person={p} />
-      )}
-    </div>
-  )
-}
+      <Filter handleFilter={handleFilter} filter={filterVal} />
 
-const Person = ({person}) => {
-  return (
-    <div>{person.name} {person.number}</div>
+      <PersonForm 
+        addName={addName}
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange}
+      />
+      <h2>Numbers</h2>
+
+      <Persons personsToShow={personsToShow} />
+    </div>
   )
 }
 
