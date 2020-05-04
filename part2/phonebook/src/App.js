@@ -44,7 +44,6 @@ const App = () => {
   }
   const personsToShow = showAll ?
     persons : persons.filter(p => {
-      console.log(filterVal.toUpperCase())
       return p.name.toUpperCase().includes(filterVal.toUpperCase())
     });
 
