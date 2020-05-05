@@ -7,13 +7,18 @@ const Countries = ({countries}) => {
                 Too many matches, specify another filter
             </div>
         )
-    } else {
+    } else if (countries.length > 0) {
         return (
             <div>
                 {countries.map(c =>
                     <div key={c.alpha2Code}>{c.name}</div>
                 )}
             </div>
+        )
+    } else {
+        return (
+            
+            <div></div>
         )
     }
 }

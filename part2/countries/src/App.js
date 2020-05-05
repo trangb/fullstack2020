@@ -18,14 +18,15 @@ function App() {
   useEffect(hook, [])
 
   const countriesToShow = countries.filter(country => {
-    if (countryFilter) {
-      return country.name.toUpperCase().includes(countryFilter.toUpperCase())
-    } else {
-      return countries
-    }
-  })
-
+        if (countryFilter) {
+          return country.name.toUpperCase().includes(countryFilter.toUpperCase())
+        } else {
+          return false
+        }
+      })
+  
   const handleFilter = (event) => {
+    console.log('nothign')
     setCountryFilter(event.target.value);
   }
 
