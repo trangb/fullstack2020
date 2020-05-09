@@ -26,7 +26,6 @@ function App() {
       })
   
   const handleFilter = (event) => {
-    console.log('nothign')
     setCountryFilter(event.target.value);
   }
 
