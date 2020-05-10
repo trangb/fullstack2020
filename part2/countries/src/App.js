@@ -25,9 +25,7 @@ function App() {
         }
       })
   
-  const handleFilter = (event) => {
-    setCountryFilter(event.target.value);
-  }
+  const handleFilter = (event) => setCountryFilter(event.target.value);
 
   if (countriesToShow.length === 1) {
     return (
