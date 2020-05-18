@@ -19,12 +19,25 @@ const App = () => {
         setPersons(initialPeople)
       })
   }, [])
-  
+
   const addName = (event) => {
     event.preventDefault()
     if (newName) {
       if (persons.some(p => p.name === newName)) {
-        alert(`${newName} is already added to phonebook`)
+        if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+          const person = persons.find(p => p.name === newName)
+          const changedPerson = { ...person, number: newNumber }
+          personService
+            .update(person.id, changedPerson)
+            .then(returnedPerson => {
+              setPersons(persons.map(p => p.name !== newName ? p : returnedPerson))
+              setNewName('')
+              setNewNumber('')
+            })
+        } else {
+          setNewName('')
+          setNewNumber('')
+        }
       } else {
         const nameObject = {
           name: newName,
@@ -70,21 +83,21 @@ const App = () => {
       return p.name.toUpperCase().includes(filterVal.toUpperCase())
     });
 
-    const handleFilter = (event) => {
-      setFilterVal(event.target.value)
-      if (filterVal) {
-        setShowAll(false)
-      } else {
-        setShowAll(true)
-      }
+  const handleFilter = (event) => {
+    setFilterVal(event.target.value)
+    if (filterVal) {
+      setShowAll(false)
+    } else {
+      setShowAll(true)
     }
-  
+  }
+
   return (
     <div>
       <h2>Phonebook</h2>
       <Filter handleFilter={handleFilter} filter={filterVal} />
 
-      <PersonForm 
+      <PersonForm
         addName={addName}
         newName={newName}
         handleNameChange={handleNameChange}
