@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build:ui": "(if exist build rmdir /s /q build )&& cd ../part2/phonebook && npm run build --prod && xcopy /E build ..\\..\\part3\\build\\"
   },
   "author": "",
   "license": "ISC",
