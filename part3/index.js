@@ -8,7 +8,7 @@ app.use(express.json())
 app.use(express.static('build'))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :data'))
 
-morgan.token('data', function(req, res) {
+morgan.token('data', function (req, res) {
     return JSON.stringify(req.body)
 })
 
@@ -48,19 +48,21 @@ app.get('/api/persons', (req, res) => {
 app.get('/info', (req, res) => {
     Person.find({}).then(persons => {
         res.send(`<div>Phonebook has info for ${persons.length} people</div>`
-        + `<p><div>${new Date()}</div>`
+            + `<p><div>${new Date()}</div>`
         )
     })
 })
 
-app.get('/api/persons/:id', (request, response) => {
-    const id = Number(request.params.id)
-    const person = persons.find(person => person.id === id)
-    if (person) {
-        response.json(person)
-    } else {
-        response.status(404).end()
-    }
+app.get('/api/persons/:id', (request, response, next) => {
+    Person.findById(request.params.id)
+        .then(person => {
+            if (person) {
+                response.json(person)
+            } else {
+                response.status(404).end()
+            }
+        })
+        .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response, next) => {
@@ -89,7 +91,6 @@ app.post('/api/persons', (request, response) => {
         response.json(savedPerson)
     })
 })
-
 
 app.put('/api/persons/:id', (request, response, next) => {
     const body = request.body
