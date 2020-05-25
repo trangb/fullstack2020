@@ -1,0 +1,5 @@
+### Deletes user if ID exists, returns 204 status no content
+DELETE http://localhost:3001/api/persons/5ecbf1094e91761ecc86a8f6
+
+### Bad ID, throws error
+DELETE http://localhost:3001/api/persons/badId

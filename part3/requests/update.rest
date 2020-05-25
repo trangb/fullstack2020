@@ -1,0 +1,16 @@
+@id = 5ecb24d83bf7dd4eec8dc2fa
+### Update the number for an existing person
+PUT http://localhost:3001/api/persons/{{id}}
+Content-Type: application/json
+
+{
+	"number": "555555-updated"
+}
+
+### Reset it back
+PUT http://localhost:3001/api/persons/{{id}}
+Content-Type: application/json
+
+{
+	"number": "234-2483"
+}

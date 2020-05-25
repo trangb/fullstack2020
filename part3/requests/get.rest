@@ -1,0 +1,5 @@
+### Get all the people
+GET http://localhost:3001/api/persons
+
+### get a specific person by Id
+GET http://localhost:3001/api/persons/5ecb24bee8f3ed1b4cc1fead

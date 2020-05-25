@@ -1,0 +1,34 @@
+### Add a new person to the phonebook
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Jabron Lamarkie",
+    "number": "522332-23"
+}
+
+### Add a person fails due to missing number
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Jabron Lamarkie"
+}
+
+### Add a person fails due to missing name
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "number": "522332-23"
+}
+
+### Add a person fails due to duplicate
+### (legacy from older code, won't fail with MongoDB)
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Arto Hellas",
+    "number": "522332-23"
+}
