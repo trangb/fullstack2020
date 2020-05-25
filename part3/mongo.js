@@ -18,19 +18,14 @@ mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 
 const personSchema = new mongoose.Schema({
   name: String,
-  number: String,
-  id: String
+  number: String
 })
 
-const generateId = () => {
-    return Math.floor(Math.random() * 10000)
-}
 const Person = mongoose.model('Person', personSchema)
 
 const person = new Person({
   name: newName,
-  number: newNumber,
-  id: generateId()
+  number: newNumber
 })
 
 person.save().then(result => {
