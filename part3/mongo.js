@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 if (process.argv.length < 5) {
   console.log('Please provide the password as well as the Name & Number to add ' +
-    'to DB as command-line arguments: node mongo.js <password> <name> <number>');
+    'to DB as command-line arguments: node mongo.js <password> <name> <number>')
   process.exit(1)
 }
 
