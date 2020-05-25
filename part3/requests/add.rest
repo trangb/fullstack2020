@@ -24,11 +24,10 @@ Content-Type: application/json
 }
 
 ### Add a person fails due to duplicate
-### (legacy from older code, won't fail with MongoDB)
 POST http://localhost:3001/api/persons
 Content-Type: application/json
 
 {
-    "name": "Arto Hellas",
+    "name": "Tony Tiger",
     "number": "522332-23"
 }
