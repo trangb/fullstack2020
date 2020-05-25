@@ -14,3 +14,12 @@ Content-Type: application/json
 {
 	"number": "234-2483"
 }
+
+### Update fails because the length < 8
+PUT http://localhost:3001/api/persons/{{id}}
+Content-Type: application/json
+
+{
+	"number": "1234567"
+}
+

@@ -30,6 +30,7 @@ const App = () => {
         if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
           const person = persons.find(p => p.name === newName)
           const changedPerson = { ...person, number: newNumber }
+          console.log('before update')
           personService
             .update(person.id, changedPerson)
             .then(returnedPerson => {
@@ -41,7 +42,7 @@ const App = () => {
               setTimeout(() => {setMessage(null)}, 3000)
             })
             .catch(error => {
-              setMessage(`Information of ${newName} has already been removed from server`)
+              setMessage(`Person validation failed: ${error.response.data.error}`)
               setMessageType('error')
               setTimeout(() => {setMessage(null)}, 3000)
             })
@@ -67,6 +68,12 @@ const App = () => {
             setMessageType('info')
             setTimeout(() => {setMessage(null)}, 3000)
           })
+          .catch(error => {
+            setMessage(`Person validation failed: ${error.response.data.error}`)
+            setMessageType('error')
+            setTimeout(() => {setMessage(null)}, 3000)
+          })
+
       }
     } else {
       alert('Enter a name')

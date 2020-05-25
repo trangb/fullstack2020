@@ -31,3 +31,23 @@ Content-Type: application/json
     "name": "Tony Tiger",
     "number": "522332-23"
 }
+
+### Add a new person fails due to name < 3 length
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Ja",
+    "number": "12345678"
+}
+
+
+### Add a new person fails due to number < 8 length
+POST http://localhost:3001/api/persons
+Content-Type: application/json
+
+{
+    "name": "Jab",
+    "number": "1234567"
+}
+
