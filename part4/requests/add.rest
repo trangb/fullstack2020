@@ -18,3 +18,14 @@ Content-Type: application/json
     "url": "www.sirmixalot.com",
     "likes": "1000"
 }
+
+### Add another
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Tantric Santric",
+    "author": "Jo-Wilifrend Songa",
+    "url": "www.tennis101.com",
+    "likes": "10000"
+}
