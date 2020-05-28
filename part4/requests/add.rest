@@ -1,0 +1,20 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "A Moment in Time",
+    "author": "Opera Winfred",
+    "url": "www.amit.com",
+    "likes": "100"
+}
+
+### Add another
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Sir Mix-a-Lot",
+    "author": "Canning Manfred",
+    "url": "www.sirmixalot.com",
+    "likes": "1000"
+}
