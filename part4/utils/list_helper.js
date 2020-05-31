@@ -34,13 +34,13 @@ const favoriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
-  let authorCts = _.countBy(blogs, (item) => item.author)
+  let blogCtsByAuthor = _.countBy(blogs, (item) => item.author)
 
   let most = {
     author: '',
     blogs: 0
   }
-  _.forEach(authorCts, (value, key) => {
+  _.forEach(blogCtsByAuthor, (value, key) => {
     if (value > most.blogs) {
       most.blogs = value
       most.author = key
@@ -48,6 +48,24 @@ const mostBlogs = (blogs) => {
   })
   return (most.blogs === 0) ? null : most
 }
+
+const mostLikes = (blogs) => {
+  let authors = _.groupBy(blogs, (item) => item.author)
+
+  let most = {
+    author: '',
+    likes: 0
+  }
+  _.forEach(authors, (blogList, auth) => {
+    let sum = _.sumBy(blogList, (item) => item.likes)
+    if (sum > most.likes) {
+      most.author = auth
+      most.likes = sum
+    }
+  })
+  return (most.likes === 0) ? null : most
+}
+
 module.exports = {
-  dummy, totalLikes, favoriteBlog, mostBlogs
+  dummy, totalLikes, favoriteBlog, mostBlogs, mostLikes
 }
