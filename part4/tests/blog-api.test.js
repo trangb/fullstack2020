@@ -15,7 +15,7 @@ beforeEach(async () => {
 
 })
 
-describe('when there is initially some blogs saved', () => {
+describe('tests on existing blogs', () => {
   test('api - blogs are returned as json', async () => {
     await api
       .get('/api/blogs')
@@ -128,6 +128,25 @@ describe('deleting a blog', () => {
     expect(contents).not.toContain(blogToDelete.title)
   })
 
+})
+
+describe('updating a blog', () => {
+  test('update likes on an existing blog', async () => {
+    const blogs = await helper.blogsInDb()
+    const blogToUpdate = blogs[0]
+    const likesAtStart = blogToUpdate.likes
+    const likesAtEnd = likesAtStart + 5
+    blogToUpdate.likes = likesAtEnd
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(blogToUpdate)
+      .expect(200)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd[0].likes).toEqual(likesAtEnd)
+
+  })
 })
 
 afterAll(() => {
