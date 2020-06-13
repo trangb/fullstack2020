@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
-
+const Blog = require('../models/blog')
 const api = supertest(app)
 
 test('api - blogs are returned as json', async () => {
@@ -10,6 +10,13 @@ test('api - blogs are returned as json', async () => {
     .expect(200)
     .expect('Content-Type', /application\/json/)
 })
+
+test('api - id is defined', async() => {
+  const response = await api.get('/api/blogs')
+  const blog = new Blog(response)
+  expect(blog.id).toBeDefined()
+})
+
 
 test('api - there are two blogs', async () => {
   const response = await api.get('/api/blogs')
