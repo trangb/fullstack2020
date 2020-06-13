@@ -2,9 +2,16 @@ const mongoose = require('mongoose')
 mongoose.set('useFindAndModify', false)
 
 const blogSchema = mongoose.Schema({
-  title: String,
+  title: {
+    type: String,
+    required: function() {return !(this.url)}
+  },
   author: String,
-  url: String,
+  url: {
+    type: String,
+    required: function() { return !(this.title) }
+  },
+
   likes: Number
 })
 
