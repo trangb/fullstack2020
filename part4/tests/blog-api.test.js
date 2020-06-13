@@ -22,12 +22,29 @@ test('api - blogs are returned as json', async () => {
 })
 
 test('api - a valid blog can be added', async () => {
-  console.log('starting test')
   const newBlog = {
     title: 'My Test Blog',
     author: 'Amanda Huginkiss',
     url: 'http://www.amandahuginkiss.com',
     likes: 11
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+  const title = blogsAtEnd.map(n => n.title)
+  expect(title).toContain('My Test Blog')
+})
+
+test('api - likes are defaulted to 0 if missing', async () => {
+  const newBlog = {
+    title: 'No Likes Blog',
   }
 
   console.log('calling await api')
@@ -37,16 +54,16 @@ test('api - a valid blog can be added', async () => {
     .expect(201)
     .expect('Content-Type', /application\/json/)
 
-  console.log('calling helper to get blogsInDb')
   const blogsAtEnd = await helper.blogsInDb()
-  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+  const total = helper.initialBlogs.length + 1
+  expect(blogsAtEnd).toHaveLength(total)
 
-  console.log('getting blogsAtEnd')
-  const contents = blogsAtEnd.map(n => n.title)
-  expect(contents).toContain(
-    'My Test Blog'
-  )
+  const title = blogsAtEnd.map(n => n.title)
+  expect(title).toContain('No Likes Blog')
+
+  expect(blogsAtEnd[total-1].likes).toEqual(0)
 })
+
 
 test('api - id is defined', async () => {
   const response = await api.get('/api/blogs')
