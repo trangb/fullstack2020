@@ -1,0 +1,12 @@
+### create a user
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+	"username": "mlukkkai2",
+	"name": "Matti L",
+  "password": "pazzword"
+}
+
+### Get all users
+GET http://localhost:3003/api/users
