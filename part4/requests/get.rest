@@ -1,4 +1,4 @@
-### Get all the people
+### Get all the blogs
 GET http://localhost:3003/api/blogs
 
 ### get a specific person by Id -- not implemented yet

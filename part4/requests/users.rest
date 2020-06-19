@@ -4,9 +4,12 @@ POST http://localhost:3003/api/users
 Content-Type: application/json
 
 {
-	"username": "mlukkkai2",
-	"name": "Matti L",
+	"username": "anotheruser",
+	"name": "Garby L",
   "password": "pazzword"
+	# "username": "mlukkkai2",
+	# "name": "Matti L",
+  # "password": "pazzword"
 }
 ### fail: password < 3 length
 POST http://localhost:3003/api/users

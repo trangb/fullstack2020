@@ -29,3 +29,13 @@ Content-Type: application/json
     "url": "www.tennis101.com",
     "likes": "10000"
 }
+
+### No likes
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+    "title": "Me No Likey",
+    "author": "Anaon",
+    "url": "www.tennis101.com"
+}
