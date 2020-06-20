@@ -31,21 +31,17 @@ const blogsInDb = async () => {
 }
 
 // User
+//user1 password: passwerd, user2 password: passwurd
 const initialUsers = [
   {
-    username: 'stuart',
-    name: 'Stuart Little',
-    passwordHash: 'pazzword'
+    username: 'user1',
+    name: 'User one',
+    passwordHash: '$2b$10$gFcJGF.GfKaSQkSG4CPyhuEHPxyJYX7veymu7lXeflJ5vfEVGosAe'
   },
   {
-    username: 'kelly',
-    name: 'Kelly Little',
-    passwordHash: 'spazzword'
-  },
-  {
-    username: 'warren',
-    name: 'Warren Little',
-    passwordHash: 'lzspazzword'
+    username: 'user2',
+    name: 'User two',
+    passwordHash: '$2b$10$LVTSeUbvDB8rItiFgmKK4OG36z5MaP5wszxZF.hLvvuz5aBHIN8Km'
   }
 ]
 

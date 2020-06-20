@@ -15,7 +15,14 @@ describe('blog tests', () => {
     const promiseArray = blogObjects.map(blog => blog.save())
     await Promise.all(promiseArray)
 
+    await User.deleteMany({})
+    const userObjects = helper.initialUsers
+      .map(user => new User(user))
+    const promiseArray2 = userObjects.map(user => user.save())
+    await Promise.all(promiseArray2)
+
   })
+
 
   describe('tests on existing blogs', () => {
     test('api - blogs are returned as json', async () => {
@@ -36,12 +43,6 @@ describe('blog tests', () => {
       expect(response.body).toHaveLength(2)
     })
 
-    test('api - the first blog I just added', async () => {
-      const response = await api.get('/api/blogs')
-
-      expect(response.body[0].title).toBe('My First Blog')
-    })
-
   })
 
   describe('adding a blog', () => {
@@ -53,8 +54,21 @@ describe('blog tests', () => {
         likes: 11
       }
 
+      const loginInfo = {
+        username: 'user1',
+        password: 'passwerd'
+      }
+      const response = await api
+        .post('/api/login')
+        .send(loginInfo)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+      const token = response.body.token
+
       await api
         .post('/api/blogs')
+        .set('Authorization', 'bearer ' + token)
         .send(newBlog)
         .expect(200)
         .expect('Content-Type', /application\/json/)
@@ -65,13 +79,45 @@ describe('blog tests', () => {
       const title = blogsAtEnd.map(n => n.title)
       expect(title).toContain('My Test Blog')
     })
+
+    test('api - adding blog fails with 401 error if no token provided', async () => {
+      const newBlog = {
+        title: 'My Test Blog',
+        author: 'Amanda Huginkiss',
+        url: 'http://www.amandahuginkiss.com',
+        likes: 11
+      }
+
+      await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(401)
+        .expect('Content-Type', /application\/json/)
+
+      const blogsAtEnd = await helper.blogsInDb()
+      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+    })
+
     test('api - likes are defaulted to 0 if missing', async () => {
       const newBlog = {
         title: 'No Likes Blog',
       }
 
+      const loginInfo = {
+        username: 'user1',
+        password: 'passwerd'
+      }
+      const response = await api
+        .post('/api/login')
+        .send(loginInfo)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+      const token = response.body.token
+
       await api
         .post('/api/blogs')
+        .set('Authorization', 'bearer ' + token)
         .send(newBlog)
         .expect(200)
         .expect('Content-Type', /application\/json/)
@@ -88,48 +134,57 @@ describe('blog tests', () => {
 
     test('api - blog not added if no title and url', async () => {
       const newBlog = {
-        likes: 10
+        likes: 11
       }
+
+      const loginInfo = {
+        username: 'user1',
+        password: 'passwerd'
+      }
+      const response = await api
+        .post('/api/login')
+        .send(loginInfo)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+      const token = response.body.token
 
       await api
         .post('/api/blogs')
+        .set('Authorization', 'bearer ' + token)
         .send(newBlog)
         .expect(400)
+        .expect('Content-Type', /application\/json/)
+
+
     })
+
     test('api - just no url is ok', async () => {
       const newBlog = {
-        title: 'No URL here',
-        likes: 10
+        title: 'My Test Blog',
+        author: 'Amanda Huginkiss',
+        likes: 11
       }
+
+      const loginInfo = {
+        username: 'user1',
+        password: 'passwerd'
+      }
+      const response = await api
+        .post('/api/login')
+        .send(loginInfo)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+      const token = response.body.token
 
       await api
         .post('/api/blogs')
+        .set('Authorization', 'bearer ' + token)
         .send(newBlog)
         .expect(200)
+        .expect('Content-Type', /application\/json/)
     })
-
-  })
-
-  describe('deleting a blog', () => {
-    test('api - succeeds with status code 204 if id is valid', async () => {
-      const blogsAtStart = await helper.blogsInDb()
-      const blogToDelete = blogsAtStart[0]
-
-      await api
-        .delete(`/api/blogs/${blogToDelete.id}`)
-        .expect(204)
-
-      const blogsAtEnd = await helper.blogsInDb()
-
-      expect(blogsAtEnd).toHaveLength(
-        helper.initialBlogs.length - 1
-      )
-
-      const contents = blogsAtEnd.map(r => r.title)
-
-      expect(contents).not.toContain(blogToDelete.title)
-    })
-
   })
 
   describe('updating a blog', () => {
@@ -192,7 +247,7 @@ describe('user tests', () => {
     const usersAtStart = await helper.usersInDb()
 
     const newUser = {
-      username: 'stuart',
+      username: 'user1',
       name: 'Existing user',
       password: 'abracadarbbra',
     }
